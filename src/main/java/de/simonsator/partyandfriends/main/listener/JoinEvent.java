@@ -2,6 +2,7 @@ package de.simonsator.partyandfriends.main.listener;
 
 import de.simonsator.partyandfriends.api.adapter.BukkitBungeeAdapter;
 import de.simonsator.partyandfriends.api.events.OnlineStatusChangedMessageEvent;
+import de.simonsator.partyandfriends.api.events.PAFPlayerLoggedInEvent;
 import de.simonsator.partyandfriends.api.pafplayers.OnlinePAFPlayer;
 import de.simonsator.partyandfriends.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.api.pafplayers.PAFPlayerManager;
@@ -78,6 +79,9 @@ public class JoinEvent extends WaitForTasksToFinish implements Listener {
 				noFriends = true;
 			if (!noFriends)
 				sendNowOnline(player, friends);
+
+			PAFPlayerLoggedInEvent event = new PAFPlayerLoggedInEvent(player, friends, friendRequests);
+			BukkitBungeeAdapter.getInstance().callEvent(event);
 		} finally {
 			taskFinished();
 		}
