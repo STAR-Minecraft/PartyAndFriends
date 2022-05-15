@@ -29,7 +29,6 @@ General:
   # Activate this if you want to customize the messages in the messages.yml.
   # The messages.yml will be generated in your under "Language" chosen language
   UseOwnLanguageFile: false
-  CheckForUpdates: true
   # Available languages are English and German
   Language: English
   # Activate this if you have more than a one core cpu to enhance performance
