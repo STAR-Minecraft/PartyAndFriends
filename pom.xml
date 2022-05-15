@@ -2,38 +2,104 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>de.simonsator</groupId>
-	<artifactId>BungeecordPartyAndFriends</artifactId>
+	<artifactId>partyandfriends</artifactId>
 	<version>1.0.90</version>
-	<name>BungeecordPartyAndFriends</name>
 	<packaging>jar</packaging>
-	<description>Easy to use party and friends plugin for Bungeecord</description>
+
+	<name>PartyAndFriends</name>
+	<description>Easy to use party and friends plugin for BungeeCord</description>
+
 	<properties>
+		<!-- Project properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>8</java.version>
+
+		<!-- Dependencies -->
+		<bungeecord.api.version>1.18-R0.1-SNAPSHOT</bungeecord.api.version>
+		<c3p0.version>0.9.5.5</c3p0.version>
+		<hikaricp.version>4.0.3</hikaricp.version>
+
+		<!-- Maven plugins -->
+		<maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+		<maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>Bungee-Repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+		<repository>
+			<id>CodeMC</id>
+			<url>https://repo.codemc.org/repository/maven-public</url>
+		</repository>
+		<repository>
+			<id>Simonsators-repo</id>
+			<url>https://simonsator.de/repo</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- BungeeCord API -->
+		<dependency>
+			<groupId>net.md-5</groupId>
+			<artifactId>bungeecord-api</artifactId>
+			<version>${bungeecord.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- C3P0 -->
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>${c3p0.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- HikariCP -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>${hikaricp.version}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
+		<finalName>${project.name}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
+			<!-- Maven compiler plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.10.1</version>
+				<version>${maven.compiler.plugin.version}</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+
+			<!-- Maven shade plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.4</version>
+				<version>${maven.shade.plugin.version}</version>
 				<configuration>
+					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<finalName>${project.name}-full</finalName>
+					<minimizeJar>true</minimizeJar>
 					<artifactSet>
 						<includes>
-							<include>org.bstats:*</include>
 							<include>com.mchange:*</include>
 							<include>com.zaxxer:*</include>
-							<include>de.simonsator:*</include>
 						</includes>
 					</artifactSet>
 					<relocations>
@@ -54,12 +120,12 @@
 							<shadedPattern>de.simonsator.partyandfriends.updatechecker</shadedPattern>
 						</relocation>
 					</relocations>
-					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<minimizeJar>true</minimizeJar>
 					<filters>
 						<filter>
 							<artifact>*:*</artifact>
 							<excludes>
+								<exclude>META-INF/maven/</exclude>
+								<exclude>META-INF/versions/</exclude>
 								<exclude>META-INF/*.SF</exclude>
 								<exclude>META-INF/*.DSA</exclude>
 								<exclude>META-INF/*.RSA</exclude>
@@ -78,76 +144,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>3.5.2</version>
-			</extension>
-		</extensions>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 	</build>
-	<repositories>
-		<repository>
-			<id>Bungee-Repo</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</repository>
-		<repository>
-			<id>CodeMC</id>
-			<url>https://repo.codemc.org/repository/maven-public</url>
-		</repository>
-		<repository>
-			<id>Simonsators-repo</id>
-			<url>https://simonsator.de/repo</url>
-		</repository>
-	</repositories>
-	<dependencies>
-		<dependency>
-			<groupId>net.md-5</groupId>
-			<artifactId>bungeecord-api</artifactId>
-			<version>1.18-R0.1-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.md-5</groupId>
-			<artifactId>bungeecord-api</artifactId>
-			<version>1.18-R0.1-SNAPSHOT</version>
-			<type>javadoc</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.bstats</groupId>
-			<artifactId>bstats-bungeecord</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mchange</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.5.5</version>
-		</dependency>
-		<dependency>
-			<groupId>de.simonsator</groupId>
-			<artifactId>UpdateChecker</artifactId>
-			<version>1.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<!--HikariCP 5.0 requires Java 11 or later.
-			As this plugin is supposed to run on Java 8, we cannot upgrade to version 5-->
-			<version>4.0.3</version>
-		</dependency>
-	</dependencies>
-	<distributionManagement>
-		<repository>
-			<id>simonsators-web-server</id>
-			<url>sftp://ssh.strato.de/simonsator/repo</url>
-		</repository>
-	</distributionManagement>
 </project>
