@@ -2,11 +2,11 @@ package de.simonsator.partyandfriends.main.listener;
 
 import de.simonsator.partyandfriends.api.adapter.BukkitBungeeAdapter;
 import de.simonsator.partyandfriends.api.events.OnlineStatusChangedMessageEvent;
+import de.simonsator.partyandfriends.api.events.PAFPlayerLoggedInEvent;
 import de.simonsator.partyandfriends.api.pafplayers.OnlinePAFPlayer;
 import de.simonsator.partyandfriends.api.pafplayers.PAFPlayer;
 import de.simonsator.partyandfriends.api.pafplayers.PAFPlayerManager;
 import de.simonsator.partyandfriends.friends.commands.Friends;
-import de.simonsator.partyandfriends.friends.commands.MSG;
 import de.simonsator.partyandfriends.friends.settings.OfflineSetting;
 import de.simonsator.partyandfriends.friends.settings.OnlineStatusNotificationSetting;
 import de.simonsator.partyandfriends.main.Main;
@@ -60,22 +60,32 @@ public class JoinEvent implements Listener {
 
 	private void sbLoggedIn(PostLoginEvent pEvent) {
 		OnlinePAFPlayer player = PAFPlayerManager.getInstance().getPlayer(pEvent.getPlayer());
+
 		if (!player.doesExist()) {
 			player.createEntry();
 			return;
-		} else
+		} else {
 			player.update();
+		}
+
 		List<PAFPlayer> friends = player.getFriends();
 		List<PAFPlayer> friendRequests = player.getRequests();
-		if (friends.isEmpty() && friendRequests.isEmpty())
-			return;
-		boolean noFriends = friends.isEmpty();
-		if (!friendRequests.isEmpty() && FRIEND_REQUEST_NOTIFICATION)
-			deliverFriendRequests(player, friendRequests);
-		if (player.getSettingsWorth(OfflineSetting.SETTINGS_ID) == OfflineSetting.FRIENDS_ALWAYS_SEE_PLAYER_AS_OFFLINE_STATE)
-			noFriends = true;
-		if (!noFriends)
-			sendNowOnline(player, friends);
+
+		if (!friends.isEmpty() || !friendRequests.isEmpty()) {
+			boolean noFriends = friends.isEmpty();
+
+			if (!friendRequests.isEmpty() && FRIEND_REQUEST_NOTIFICATION)
+				deliverFriendRequests(player, friendRequests);
+
+			if (player.getSettingsWorth(OfflineSetting.SETTINGS_ID) == OfflineSetting.FRIENDS_ALWAYS_SEE_PLAYER_AS_OFFLINE_STATE)
+				noFriends = true;
+
+			if (!noFriends)
+				sendNowOnline(player, friends);
+		}
+
+		PAFPlayerLoggedInEvent event = new PAFPlayerLoggedInEvent(player, friends, friendRequests);
+		BukkitBungeeAdapter.getInstance().callEvent(event);
 	}
 
 	private void deliverFriendRequests(OnlinePAFPlayer pPlayer, List<PAFPlayer> pFriendRequests) {
