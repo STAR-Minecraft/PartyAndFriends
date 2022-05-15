@@ -26,13 +26,11 @@ import de.simonsator.partyandfriends.party.command.PartyCommand;
 import de.simonsator.partyandfriends.party.partymanager.LocalPartyManager;
 import de.simonsator.partyandfriends.utilities.*;
 import de.simonsator.partyandfriends.utilities.disable.Disabler;
-import de.simonsator.updatechecker.UpdateSearcher;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.config.Configuration;
-import org.bstats.bungeecord.Metrics;
 
 import java.io.File;
 import java.io.IOException;
@@ -101,11 +99,6 @@ public class Main extends PAFPluginBase implements ErrorReporter {
 			initPAFClasses();
 			registerCommands();
 			registerListeners();
-			new Metrics(this, 508);
-			if (getConfig().getBoolean("General.CheckForUpdates")) {
-				UpdateSearcher searcher = new UpdateSearcher("Party-and-Friends-Free", getDescription().getVersion());
-				ProxyServer.getInstance().getConsole().sendMessage(new TextComponent(searcher.checkForUpdate()));
-			}
 		} catch (SQLException e) {
 			if (e.getMessage().contains("Unable to load authentication plugin 'caching_sha2_password'."))
 				initError(e, BootErrorType.SHA_ENCRYPTED_PASSWORD);

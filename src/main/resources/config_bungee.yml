@@ -35,7 +35,6 @@ General:
   # If activated empty messages will appear as blank lines in the chat of the player
   # If disabled empty messages aren't sent to the player.
   SendBlankLines: true
-  CheckForUpdates: true
   # Available languages are English and German
   Language: English
   # Activate this if you have more than a one core cpu to enhance performance
