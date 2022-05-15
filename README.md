@@ -34,6 +34,41 @@ found in the [wiki of the project](https://github.com/Simonsator/BungeecordParty
 
 The JavaDoc documentation can be found [here](https://simonsator.de/JavaDoc/PartyAndFriendsNotExtended/).
 
+## Dependencies
+
+### Maven
+
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+```
+
+```xml
+<dependency>
+    <groupId>com.github.STAR-Minecraft</groupId>
+    <artifactId>PartyAndFriends</artifactId>
+    <version>1.0.88</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+### Gradle
+
+```
+repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+}
+```
+
+```
+dependencies {
+    implementation 'com.github.STAR-Minecraft:PartyAndFriends:1.0.88'
+}
+```
+
 ## Building
 Party and Friends uses [Maven](https://maven.apache.org/) to handle dependencies & building.
 
