@@ -5,7 +5,7 @@
 
 	<groupId>de.simonsator</groupId>
 	<artifactId>partyandfriends</artifactId>
-	<version>1.0.88</version>
+	<version>1.0.87</version>
 	<packaging>jar</packaging>
 
 	<name>PartyAndFriends</name>
@@ -19,12 +19,20 @@
 		<!-- Dependencies -->
 		<bungeecord.api.version>1.16-R0.5-SNAPSHOT</bungeecord.api.version>
 		<c3p0.version>0.9.5.5</c3p0.version>
-		<hikaricp.version>4.0.3</hikaricp.version>
+		<hikaricp.version>5.0.1</hikaricp.version>
 
 		<!-- Maven plugins -->
 		<maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
 		<maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
+		<maven.deploy.plugin.version>3.0.0-M1</maven.deploy.plugin.version>
 	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>https://repo.soknight.me/repository/releases/</url>
+		</repository>
+	</distributionManagement>
 
 	<repositories>
 		<repository>
@@ -131,6 +139,22 @@
 						<phase>package</phase>
 						<goals>
 							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Maven deploy plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>${maven.deploy.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
 						</goals>
 					</execution>
 				</executions>
