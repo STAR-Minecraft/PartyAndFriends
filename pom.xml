@@ -104,20 +104,12 @@
 					</artifactSet>
 					<relocations>
 						<relocation>
-							<pattern>org.bstats</pattern>
-							<shadedPattern>de.simonsator.partyandfriends</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>com.zaxxer</pattern>
 							<shadedPattern>de.simonsator.partyandfriends.hikari</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>com.mchange</pattern>
 							<shadedPattern>de.simonsator.partyandfriends.c3p0</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>de.simonsator.updatechecker</pattern>
-							<shadedPattern>de.simonsator.partyandfriends.updatechecker</shadedPattern>
 						</relocation>
 					</relocations>
 					<filters>
