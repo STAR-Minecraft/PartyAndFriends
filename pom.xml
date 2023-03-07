@@ -68,7 +68,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.name}</finalName>
+		<finalName>${project.name}-without-dependencies</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -94,7 +94,7 @@
 				<version>${maven.shade.plugin.version}</version>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
-					<finalName>${project.name}-full</finalName>
+					<finalName>${project.name}</finalName>
 					<minimizeJar>true</minimizeJar>
 					<artifactSet>
 						<includes>
